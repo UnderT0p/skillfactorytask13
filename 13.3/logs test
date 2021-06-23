@@ -1,0 +1,42 @@
+Running with gitlab-runner 14.0.0 (3b6f852e)
+  on deb5 kFrm1n7X
+Resolving secrets
+00:00
+Preparing the "shell" executor
+00:00
+Using Shell executor...
+Preparing environment
+00:00
+Running on deb5...
+Getting source from Git repository
+00:01
+Fetching changes with git depth set to 50...
+Reinitialized existing Git repository in /home/gitlab-runner/builds/kFrm1n7X/0/victordutovski/podinfo/.git/
+Checking out 0adda5a9 as master...
+Skipping Git submodules setup
+Executing "step_script" stage of the job script
+00:02
+$ docker login $REGISTRY_URL -u $GITLAB_CI_USER -p $GITLAB_CI_PASSWORD
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+WARNING! Your password will be stored unencrypted in /home/gitlab-runner/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+Login Succeeded
+$ make test-container
+ecc405344a6fb1cf2d4c92ff4d43d8b6abb6ec4b128f489ba15d1111eb17bec5
+docker exec podinfo curl -s localhost:9898 | grep -e hostname -e logo -e goos -e goarch -e num_cpu
+  "hostname": "ecc405344a6f",
+  "logo": "https://raw.githubusercontent.com/stefanprodan/podinfo/gh-pages/cuddle_clap.gif",
+  "goos": "linux",
+  "goarch": "amd64",
+  "num_cpu": "4"
+REPOSITORY                                   TAG               IMAGE ID       CREATED          SIZE
+registry.gitlab.com/victordutovski/podinfo   master-0adda5a9   1d141f637211   21 seconds ago   67.7MB
+<none>                                       <none>            8f7b1deed47f   35 seconds ago   1.13GB
+alpine                                       3.14              d4ff818577bc   7 days ago       5.6MB
+golang                                       1.16-alpine       a84d737792c2   12 days ago      302MB
+CONTAINER ID   IMAGE                                                        COMMAND       CREATED        STATUS                  PORTS     NAMES
+ecc405344a6f   registry.gitlab.com/victordutovski/podinfo:master-0adda5a9   "./podinfo"   1 second ago   Up Less than a second             podinfo
+Cleaning up file based variables
+00:00
+Job succeeded
