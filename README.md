@@ -3,12 +3,14 @@
 ссылка на гитлаб https://gitlab.com/victordutovski/podinfo/activity
 
 13.3 
+
 Адаптируйте Makefile для использования в GitLab и используйте команды make в .gitlab-ci.yml
 
 Для корректной работы на машине, которая используется в качестве gitlab-runner нужны:
 docker, git, make, gitlab-runner
 
 13.4
+
 Подключите Kubernetes из Яндекс.Облака. Разверните приложение в Kubernetes с помощью helm.
 
 Собрал скриншоты и логи.
