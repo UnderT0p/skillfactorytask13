@@ -14,7 +14,7 @@ docker, git, make, gitlab-runner
 Подключите Kubernetes из Яндекс.Облака. Разверните приложение в Kubernetes с помощью helm.
 
 Собрал скриншоты и логи.
-Подключил Kubernetes к gitlab(), настроил ранеры на запуск в kubernetes(Использовал это https://cloud.yandex.ru/docs/solutions/infrastructure-management/gitlab-containers)
+Подключил Kubernetes к gitlab, настроил ранеры на запуск в kubernetes(Использовал это https://cloud.yandex.ru/docs/solutions/infrastructure-management/gitlab-containers и это https://docs.gitlab.com/runner/install/kubernetes.html)
 ***********************************************************
 Может не работать helm update ( Error: UPGRADE FAILED: query: failed to query with labels: secrets is forbidden: User "system:serviceaccount:gitlab:default" cannot list resource "secrets" in API group "" in the namespace "gitlab"), 
 
