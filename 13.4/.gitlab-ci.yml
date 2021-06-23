@@ -1,0 +1,13 @@
+  
+stages:
+  - build
+
+build:
+  stage: build
+  script:
+    - apt-get update
+    - apt-get install curl -y
+    - curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+    - helm repo add podinfo https://stefanprodan.github.io/podinfo
+    - helm upgrade -i my-release podinfo/podinfo
+    - helm repo update
