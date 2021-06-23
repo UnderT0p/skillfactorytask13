@@ -7,14 +7,18 @@
 Адаптируйте Makefile для использования в GitLab и используйте команды make в .gitlab-ci.yml
 
 Для корректной работы на машине, которая используется в качестве gitlab-runner нужны:
-docker, git, make, gitlab-runner
+
+docker, git, make, gitlab-runner.
+
+Использовал обычный ранер с shell
 
 13.4
 
 Подключите Kubernetes из Яндекс.Облака. Разверните приложение в Kubernetes с помощью helm.
 
 Собрал скриншоты и логи.
-Подключил Kubernetes к gitlab, настроил ранеры на запуск в kubernetes(Использовал это https://cloud.yandex.ru/docs/solutions/infrastructure-management/gitlab-containers и это https://docs.gitlab.com/runner/install/kubernetes.html)
+Подключил Kubernetes к gitlab, настроил ранеры на запуск в kubernetes(Использовал это https://cloud.yandex.ru/docs/solutions/infrastructure-management/gitlab-containers и это https://docs.gitlab.com/runner/install/kubernetes.html и это https://habr.com/ru/post/481662/)
+
 ***********************************************************
 Может не работать helm update ( Error: UPGRADE FAILED: query: failed to query with labels: secrets is forbidden: User "system:serviceaccount:gitlab:default" cannot list resource "secrets" in API group "" in the namespace "gitlab"), 
 
