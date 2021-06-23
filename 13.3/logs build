@@ -1,0 +1,170 @@
+Running with gitlab-runner 14.0.0 (3b6f852e)
+  on deb5 kFrm1n7X
+Resolving secrets
+00:00
+Preparing the "shell" executor
+00:00
+Using Shell executor...
+Preparing environment
+00:01
+Running on deb5...
+Getting source from Git repository
+00:01
+Fetching changes with git depth set to 50...
+Reinitialized existing Git repository in /home/gitlab-runner/builds/kFrm1n7X/0/victordutovski/podinfo/.git/
+Checking out 0adda5a9 as master...
+Skipping Git submodules setup
+Executing "step_script" stage of the job script
+02:29
+$ docker login $REGISTRY_URL -u $GITLAB_CI_USER -p $GITLAB_CI_PASSWORD
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+WARNING! Your password will be stored unencrypted in /home/gitlab-runner/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+Login Succeeded
+$ make build-container
+docker build --pull -t registry.gitlab.com/victordutovski/podinfo:master-0adda5a9 .
+Step 1/21 : FROM golang:1.16-alpine as builder
+1.16-alpine: Pulling from library/golang
+540db60ca938: Pulling fs layer
+adcc1eea9eea: Pulling fs layer
+4c4ab2625f07: Pulling fs layer
+e25adedf14fe: Pulling fs layer
+b52c85161d43: Pulling fs layer
+e25adedf14fe: Waiting
+b52c85161d43: Waiting
+4c4ab2625f07: Verifying Checksum
+4c4ab2625f07: Download complete
+adcc1eea9eea: Verifying Checksum
+adcc1eea9eea: Download complete
+540db60ca938: Verifying Checksum
+540db60ca938: Download complete
+540db60ca938: Pull complete
+adcc1eea9eea: Pull complete
+b52c85161d43: Verifying Checksum
+b52c85161d43: Download complete
+4c4ab2625f07: Pull complete
+e25adedf14fe: Verifying Checksum
+e25adedf14fe: Download complete
+e25adedf14fe: Pull complete
+b52c85161d43: Pull complete
+Digest: sha256:34e3951701d7cc4153ca322933ed82edf8575af0d3f5c40362dca3b3c2bc425e
+Status: Downloaded newer image for golang:1.16-alpine
+ ---> a84d737792c2
+Step 2/21 : ARG REVISION
+ ---> Running in ec32d6449fdb
+Removing intermediate container ec32d6449fdb
+ ---> 0a70587bc16b
+Step 3/21 : RUN mkdir -p /podinfo/
+ ---> Running in bc19fd2b9543
+Removing intermediate container bc19fd2b9543
+ ---> fc988908cf67
+Step 4/21 : WORKDIR /podinfo
+ ---> Running in 045902ca15ad
+Removing intermediate container 045902ca15ad
+ ---> 7479376ea751
+Step 5/21 : COPY . .
+ ---> 696b0c468828
+Step 6/21 : RUN go mod download
+ ---> Running in 8645f9cfbe7a
+Removing intermediate container 8645f9cfbe7a
+ ---> 55a799ae3faa
+Step 7/21 : RUN CGO_ENABLED=0 go build -ldflags "-s -w     -X github.com/stefanprodan/podinfo/pkg/version.REVISION=${REVISION}"     -a -o bin/podinfo cmd/podinfo/*
+ ---> Running in 1279a93544b7
+Removing intermediate container 1279a93544b7
+ ---> 6568649a5644
+Step 8/21 : RUN CGO_ENABLED=0 go build -ldflags "-s -w     -X github.com/stefanprodan/podinfo/pkg/version.REVISION=${REVISION}"     -a -o bin/podcli cmd/podcli/*
+ ---> Running in cba398f77152
+Removing intermediate container cba398f77152
+ ---> 8f7b1deed47f
+Step 9/21 : FROM alpine:3.14
+3.14: Pulling from library/alpine
+5843afab3874: Pulling fs layer
+5843afab3874: Verifying Checksum
+5843afab3874: Download complete
+5843afab3874: Pull complete
+Digest: sha256:234cb88d3020898631af0ccbbcca9a66ae7306ecd30c9720690858c1b007d2a0
+Status: Downloaded newer image for alpine:3.14
+ ---> d4ff818577bc
+Step 10/21 : ARG BUILD_DATE
+ ---> Running in 6a0baa33e2b7
+Removing intermediate container 6a0baa33e2b7
+ ---> ca457e02bbd9
+Step 11/21 : ARG VERSION
+ ---> Running in 07fa54861f59
+Removing intermediate container 07fa54861f59
+ ---> 94bef255af68
+Step 12/21 : ARG REVISION
+ ---> Running in 1da1a47e23a3
+Removing intermediate container 1da1a47e23a3
+ ---> 34899ac04a91
+Step 13/21 : LABEL maintainer="stefanprodan"
+ ---> Running in 2bdc0dc30fd8
+Removing intermediate container 2bdc0dc30fd8
+ ---> ba0822041202
+Step 14/21 : RUN addgroup -S app     && adduser -S -G app app     && apk --no-cache add     ca-certificates curl netcat-openbsd
+ ---> Running in 05eb0c99e7ce
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.14/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.14/community/x86_64/APKINDEX.tar.gz
+(1/8) Installing ca-certificates (20191127-r5)
+(2/8) Installing brotli-libs (1.0.9-r5)
+(3/8) Installing nghttp2-libs (1.43.0-r0)
+(4/8) Installing libcurl (7.77.0-r1)
+(5/8) Installing curl (7.77.0-r1)
+(6/8) Installing libmd (1.0.3-r0)
+(7/8) Installing libbsd (0.11.3-r0)
+(8/8) Installing netcat-openbsd (1.130-r2)
+Executing busybox-1.33.1-r2.trigger
+Executing ca-certificates-20191127-r5.trigger
+OK: 8 MiB in 22 packages
+Removing intermediate container 05eb0c99e7ce
+ ---> 744df817b631
+Step 15/21 : WORKDIR /home/app
+ ---> Running in e3f49e70d8a3
+Removing intermediate container e3f49e70d8a3
+ ---> 20e69dd44b03
+Step 16/21 : COPY --from=builder /podinfo/bin/podinfo .
+ ---> fc84b82cc0c9
+Step 17/21 : COPY --from=builder /podinfo/bin/podcli /usr/local/bin/podcli
+ ---> 5bfc055e35c9
+Step 18/21 : COPY ./ui ./ui
+ ---> 14777b3db6ee
+Step 19/21 : RUN chown -R app:app ./
+ ---> Running in 96a71be9473d
+Removing intermediate container 96a71be9473d
+ ---> b6b1bcd866fc
+Step 20/21 : USER app
+ ---> Running in c0c42c7681ee
+Removing intermediate container c0c42c7681ee
+ ---> 42bb3a6ab53b
+Step 21/21 : CMD ["./podinfo"]
+ ---> Running in bd9efbd3af6f
+Removing intermediate container bd9efbd3af6f
+ ---> 1d141f637211
+Successfully built 1d141f637211
+Successfully tagged registry.gitlab.com/victordutovski/podinfo:master-0adda5a9
+docker push registry.gitlab.com/victordutovski/podinfo:master-0adda5a9
+The push refers to repository [registry.gitlab.com/victordutovski/podinfo]
+8807fcc3308e: Preparing
+cd8aa117289d: Preparing
+32c28a0975a8: Preparing
+62d658171d08: Preparing
+dab330111206: Preparing
+72e830a4dff5: Preparing
+72e830a4dff5: Waiting
+cd8aa117289d: Pushed
+72e830a4dff5: Layer already exists
+dab330111206: Pushed
+32c28a0975a8: Pushed
+62d658171d08: Pushed
+8807fcc3308e: Pushed
+master-0adda5a9: digest: sha256:72108d0a15b132adee00493d2d7fd678d30288e17b76c0ca28a2e8c379e185ee size: 1580
+docker images
+REPOSITORY                                   TAG               IMAGE ID       CREATED          SIZE
+registry.gitlab.com/victordutovski/podinfo   master-0adda5a9   1d141f637211   15 seconds ago   67.7MB
+<none>                                       <none>            8f7b1deed47f   29 seconds ago   1.13GB
+alpine                                       3.14              d4ff818577bc   7 days ago       5.6MB
+golang                                       1.16-alpine       a84d737792c2   12 days ago      302MB
+Cleaning up file based variables
+00:00
+Job succeeded
