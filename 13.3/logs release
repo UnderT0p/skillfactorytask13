@@ -1,0 +1,50 @@
+Running with gitlab-runner 14.0.0 (3b6f852e)
+  on deb5 kFrm1n7X
+Resolving secrets
+00:00
+Preparing the "shell" executor
+00:00
+Using Shell executor...
+Preparing environment
+00:00
+Running on deb5...
+Getting source from Git repository
+00:01
+Fetching changes with git depth set to 50...
+Reinitialized existing Git repository in /home/gitlab-runner/builds/kFrm1n7X/0/victordutovski/podinfo/.git/
+Checking out 0adda5a9 as master...
+Skipping Git submodules setup
+Executing "step_script" stage of the job script
+00:08
+$ docker login $REGISTRY_URL -u $GITLAB_CI_USER -p $GITLAB_CI_PASSWORD
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+WARNING! Your password will be stored unencrypted in /home/gitlab-runner/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+Login Succeeded
+$ make push-container
+docker pull registry.gitlab.com/victordutovski/podinfo:master-0adda5a9
+master-0adda5a9: Pulling from victordutovski/podinfo
+Digest: sha256:72108d0a15b132adee00493d2d7fd678d30288e17b76c0ca28a2e8c379e185ee
+Status: Image is up to date for registry.gitlab.com/victordutovski/podinfo:master-0adda5a9
+registry.gitlab.com/victordutovski/podinfo:master-0adda5a9
+docker tag registry.gitlab.com/victordutovski/podinfo:master-0adda5a9 registry.gitlab.com/victordutovski/podinfo:latest
+docker push registry.gitlab.com/victordutovski/podinfo:latest
+The push refers to repository [registry.gitlab.com/victordutovski/podinfo]
+8807fcc3308e: Preparing
+cd8aa117289d: Preparing
+32c28a0975a8: Preparing
+62d658171d08: Preparing
+dab330111206: Preparing
+72e830a4dff5: Preparing
+72e830a4dff5: Waiting
+dab330111206: Layer already exists
+62d658171d08: Layer already exists
+32c28a0975a8: Layer already exists
+8807fcc3308e: Layer already exists
+cd8aa117289d: Layer already exists
+72e830a4dff5: Layer already exists
+latest: digest: sha256:72108d0a15b132adee00493d2d7fd678d30288e17b76c0ca28a2e8c379e185ee size: 1580
+Cleaning up file based variables
+00:00
+Job succeeded
