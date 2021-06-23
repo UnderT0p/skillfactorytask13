@@ -1,0 +1,36 @@
+  stages:
+  - build
+  - test
+  - release
+  - deploy
+
+variables:
+  REGISTRY_URL: $CI_REGISTRY
+  IMAGE_TAG: $CI_COMMIT_BRANCH-$CI_COMMIT_SHORT_SHA
+  IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_BRANCH-$CI_COMMIT_SHORT_SHA
+  RELEASE: $CI_REGISTRY_IMAGE:latest
+
+before_script:
+  - docker login $REGISTRY_URL -u $GITLAB_CI_USER -p $GITLAB_CI_PASSWORD
+
+
+build:
+  stage: build
+  script:
+    - make build-container
+
+
+
+test:
+  stage: test
+  before_script:
+    - docker login $REGISTRY_URL -u $GITLAB_CI_USER -p $GITLAB_CI_PASSWORD
+  script:
+    - make test-container
+
+release:
+  stage: release
+  script:
+    - make push-container
+  only:
+    - master
